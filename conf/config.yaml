@@ -1,0 +1,167 @@
+# new:
+defaults:
+  - _self_
+
+data:
+  source: data/interim
+  destination: data/processed
+  artifacts: artifacts
+  reports: reports
+  raw_file: telco_customer_churn_preprocessed
+  train_suffix: -train
+  test_suffix: -test
+  parametric_suffix: -parametric_models
+  tree_suffix: -tree_models
+
+processing:
+  target: Churn
+  test_size: 0.15
+  random_state: 42
+  bool_columns:
+    - Partner
+    - Dependents
+    - PhoneService
+    - PaperlessBilling
+    - Churn
+    - SeniorCitizen
+  category_columns:
+    - gender
+    - MultipleLines
+    - OnlineSecurity
+    - OnlineBackup
+    - DeviceProtection
+    - TechSupport
+    - StreamingTV
+    - StreamingMovies
+    - InternetService
+    - Contract
+    - PaymentMethod
+  int_columns:
+    - tenure
+  float_columns:
+    - MonthlyCharges
+    - TotalCharges
+  drop_cols: null
+  parametric_drop:
+    - gender
+    - PhoneService
+    - TotalCharges
+  tree_drop:
+    - TotalCharges
+
+models:
+  # logistic_regression:
+  #   class_name: sklearn.linear_model.LogisticRegression
+  #   IS_PARAMETRIC: True
+  #   space:
+  #     penalty: 
+  #       type: choice
+  #       options: ['l1', 'l2']
+  #     solver: 
+  #       type: choice
+  #       options: ['saga', 'liblinear']
+  #   fixed_params:
+  #     max_iter: 1000
+  #     random_state: 42
+  #   n_folds: 5
+  #   max_evals: 50
+
+  decision_tree:
+    class_name: sklearn.tree.DecisionTreeClassifier
+    IS_PARAMETRIC: False
+    space:
+      max_depth: 
+        type: quniform
+        low: 3
+        high: 20
+        q: 1
+      min_samples_split: 
+        type: quniform
+        low: 2
+        high: 20
+        q: 1
+      min_samples_leaf: 
+        type: quniform
+        low: 1
+        high: 10
+        q: 1
+      criterion: 
+        type: choice
+        options: ['gini', 'entropy', 'log_loss']
+    fixed_params:
+      random_state: 42
+    n_folds: 5
+    max_evals: 30
+
+  # random_forest:
+  #   class_name: sklearn.ensemble.RandomForestClassifier
+  #   IS_PARAMETRIC: False
+
+  #   space:
+  #     n_estimators: 
+  #       type: quniform
+  #       low: 50
+  #       high: 500
+  #       q: 50
+  #     max_depth: 
+  #       type: quniform
+  #       low: 5
+  #       high: 30
+  #       q: 5
+  #     min_samples_split: 
+  #       type: quniform
+  #       low: 2
+  #       high: 20
+  #       q: 2
+  #     bootstrap: 
+  #       type: choice
+  #       options: [True, False]
+  #   fixed_params:
+  #     random_state: 42
+  #     n_jobs: -1
+  #   n_folds: 5
+  #   max_evals: 50
+
+  # svm:
+  #   class_name: sklearn.svm.SVC
+  #   IS_PARAMETRIC: False
+
+  #   space:
+  #     C: 
+  #       type: loguniform
+  #       low: -2
+  #       high: 3
+  #     kernel: 
+  #       type: choice
+  #       options: ['linear', 'poly', 'rbf', 'sigmoid']
+  #     gamma: 
+  #       type: choice
+  #       options: ['scale', 'auto']
+  #   fixed_params:
+  #     probability: True
+  #     random_state: 42
+  #   n_folds: 3
+  #   max_evals: 30
+
+  # naive_bayes:
+  #   class_name: sklearn.naive_bayes.GaussianNB
+  #   IS_PARAMETRIC: False
+
+  #   space:
+  #     var_smoothing: 
+  #       type: loguniform
+  #       low: 1e-11
+  #       high: 1e-7
+  #   fixed_params: {}
+  #   n_folds: 5
+  #   max_evals: 20
+
+evaluation:
+  metrics:
+    - accuracy
+    - precision
+    - recall
+    - f1
+    - roc_auc 
+
+

@@ -33,6 +33,7 @@ Modern telecom operators face fierce competition and high customer acquisition c
 ---
 ## 🛠️ Suggested Approach
 ![Churn Management Framework](image-9.png)
+
 This pipeline is introduced by: Integrated Churn Prediction and Customer Segmentation Framework for Telco Business, Wu, Shuli, et al (2021)
 
 1. **Data Preprocessing**: Cleaning, transformation, normalization, handling imbalance (e.g. SMOTE).

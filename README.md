@@ -114,9 +114,10 @@ flowchart LR
    ```bash
    python ./src/inference.py
    ```
+   ![alt text](image-13.png)
 4. **Running Fast API**:
    ```bash
-    uvicorn src.api.main:app --reload --host 0.0.0.0 --port 8000
+    python .\src\server.py
    ```
 5. **Docker**:
     ```bash
